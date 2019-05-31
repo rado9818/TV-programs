@@ -20,7 +20,6 @@ class ProgramScreen(wx.Frame):
         self.InitUI()
 
         self.scheduleNotify()
-        print "difff " + str(TimeUtil.getDifference())
 
 
     def fetchPrograms(self):
@@ -43,14 +42,16 @@ class ProgramScreen(wx.Frame):
         self.Close(True)
 
     def scheduleNotify(self):
+        print "difff " + str(TimeUtil.getDifference())
+
         t = Timer(5.0, self.notify)
         t.start()  # af
 
     def notify(self):
         s.call(['notify-send', 'foo', 'bar'])
 
-    def OnProgramClick(self, program):
-        print ("Program clicked ", program)
+    def OnItemClicked(self, event):
+        print ("Program clicked ", event.GetEventObject())
 
     def getData(self, event):
         global browserList
@@ -84,6 +85,8 @@ class ProgramScreen(wx.Frame):
         self.list_ctrl.InsertColumn(0, "Name", width=160)
         self.list_ctrl.InsertColumn(1, "Start Time")
         self.list_ctrl.InsertColumn(2, "End Time")
+
+        self.list_ctrl.Bind(wx.EVT_LIST_ITEM_SELECTED, self.OnItemClicked)
 
         self.fetchPrograms()
 
