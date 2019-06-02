@@ -52,7 +52,7 @@ class ProgramScreen(wx.Frame):
     def OnItemClicked(self, event):
         global scheduleData
         print ("Program clicked ", scheduleData[event.GetIndex()])
-        timeDiffence = TimeUtil.getDifference(scheduleData[event.GetIndex()]["start_time"])
+        timeDiffence = TimeUtil.getDifference(scheduleData[event.GetIndex()]["start_time"], TimeUtil.getCurrentTime())
 
         if timeDiffence<TIME_IN_PAST:
             message = "Your show is over :("
