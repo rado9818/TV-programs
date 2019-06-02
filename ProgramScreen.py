@@ -1,5 +1,6 @@
 import wx
 import urllib2
+from Constants import TIME_IN_PAST
 from Constants import PROGRAM_FOR_PROVIDER_URL
 from cStringIO import StringIO
 import sys
@@ -12,6 +13,7 @@ class ProgramScreen(wx.Frame):
 
     sizer = None
     browserList = None
+    scheduleData = None
 
     def __init__(self, *args, **kw):
         super(ProgramScreen, self).__init__(*args, **kw)
@@ -19,14 +21,13 @@ class ProgramScreen(wx.Frame):
 
         self.InitUI()
 
-        self.scheduleNotify()
-
 
     def fetchPrograms(self):
-
+        global scheduleData
         print ("requesting ", PROGRAM_FOR_PROVIDER_URL(1))
         contents = urllib2.urlopen(PROGRAM_FOR_PROVIDER_URL(1)).read()
         data = json.loads(contents)
+        scheduleData = data
         print data
 
 
@@ -41,17 +42,29 @@ class ProgramScreen(wx.Frame):
     def OnClose(self, e):
         self.Close(True)
 
-    def scheduleNotify(self):
-        print "difff " + str(TimeUtil.getDifference())
-
-        t = Timer(5.0, self.notify)
+    def scheduleNotify(self, delay):
+        t = Timer(delay, self.notify)
         t.start()  # af
 
     def notify(self):
         s.call(['notify-send', 'foo', 'bar'])
 
     def OnItemClicked(self, event):
-        print ("Program clicked ", event.GetEventObject())
+        global scheduleData
+        print ("Program clicked ", scheduleData[event.GetIndex()])
+        timeDiffence = TimeUtil.getDifference(scheduleData[event.GetIndex()]["start_time"])
+
+        if timeDiffence<TIME_IN_PAST:
+            message = "Your show is over :("
+        else:
+            message = "You will be notified when you show starts"
+            self.scheduleNotify(timeDiffence)
+
+        wx.MessageDialog(None, message, caption=wx.MessageBoxCaptionStr,
+                      style=wx.OK | wx.CENTRE, pos=wx.DefaultPosition).ShowModal()
+        print "difff " + str(timeDiffence)
+
+        #self.scheduleNotify()
 
     def getData(self, event):
         global browserList
