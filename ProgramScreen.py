@@ -1,5 +1,7 @@
 import wx
 import urllib2
+
+import Constants
 from Constants import TIME_IN_PAST
 from Constants import PROGRAM_FOR_PROVIDER_URL
 from cStringIO import StringIO
@@ -58,7 +60,7 @@ class ProgramScreen(wx.Frame):
             message = "Your show is over :("
         else:
             message = "You will be notified when you show starts"
-            self.scheduleNotify(timeDiffence)
+            self.scheduleNotify(timeDiffence*Constants.SECONDS_IN_MINUTE)
 
         wx.MessageDialog(None, message, caption=wx.MessageBoxCaptionStr,
                       style=wx.OK | wx.CENTRE, pos=wx.DefaultPosition).ShowModal()
