@@ -22,7 +22,6 @@ class ProgramScreen(wx.Frame):
         self.index = 0
 
         self.InitUI()
-        self.notify()
 
 
     def fetchPrograms(self):
