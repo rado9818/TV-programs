@@ -22,6 +22,7 @@ class ProgramScreen(wx.Frame):
         self.index = 0
 
         self.InitUI()
+        self.notify()
 
 
     def fetchPrograms(self):
@@ -49,7 +50,7 @@ class ProgramScreen(wx.Frame):
         t.start()  # af
 
     def notify(self):
-        s.call(['notify-send', 'foo', 'bar'])
+        s.call(['notify-send', 'Show started', 'Go watch your show!'])
 
     def OnItemClicked(self, event):
         global scheduleData
@@ -59,7 +60,7 @@ class ProgramScreen(wx.Frame):
         if timeDiffence<TIME_IN_PAST:
             message = "Your show is over :("
         else:
-            message = "You will be notified when you show starts"
+            message = "You will be notified when your show starts"
             self.scheduleNotify(timeDiffence*Constants.SECONDS_IN_MINUTE)
 
         wx.MessageDialog(None, message, caption=wx.MessageBoxCaptionStr,
