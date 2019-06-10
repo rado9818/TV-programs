@@ -1,5 +1,7 @@
 import wx
 import urllib2
+
+import UpdateProgramInfo
 from Programs import LoadPrograms
 from Constants import PROVIDERS_URL
 from ProgramScreen import ProgramScreen
@@ -12,6 +14,7 @@ class ProgramsScreen(wx.Frame):
         super(ProgramsScreen, self).__init__(*args, **kw)
         self.InitUI()
         self.fetchProviders()
+        UpdateProgramInfo.updateProgram()
 
 
     def fetchProviders(self):
