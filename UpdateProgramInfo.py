@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 import sys
+import json
 
 def updateProgram():
     reload(sys)
@@ -19,7 +20,13 @@ def updateProgram():
             name = (eachLi.findNext('span', {'class': 'title'})).text.strip()
             startTime = eachLi.findNext('span', {'class': 'time'}).text.strip()
             print name
-            programsList.append({"name": name, "start_time": startTime})
+            prog = {}
+            prog["name"] = name
+            prog["start_time"] = startTime
+            programsList.append(prog)
         break
 
     print programsList
+
+    r = requests.post('http://46.101.233.213/programs/2', json=programsList)
+    print r.status_code

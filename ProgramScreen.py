@@ -37,7 +37,6 @@ class ProgramScreen(wx.Frame):
             print("data ", row)
             self.list_ctrl.InsertItem(self.index, row['name'])
             self.list_ctrl.SetItem(self.index, 1, row['start_time'])
-            self.list_ctrl.SetItem(self.index, 2, row['end_time'])
             self.index += 1
         #LoadPrograms(self, contents, sizer)
 
@@ -99,7 +98,6 @@ class ProgramScreen(wx.Frame):
 
         self.list_ctrl.InsertColumn(0, "Name", width=160)
         self.list_ctrl.InsertColumn(1, "Start Time")
-        self.list_ctrl.InsertColumn(2, "End Time")
 
         self.list_ctrl.Bind(wx.EVT_LIST_ITEM_SELECTED, self.OnItemClicked)
 
