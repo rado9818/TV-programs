@@ -9,15 +9,20 @@ def updateProgram():
 
     programsList = []
 
+    #open btv web page html
     r=requests.get("https://www.btv.bg/programata/")
     r.encoding = r.apparent_encoding
-   # print r.text
+
+    #parse the html
     soup = BeautifulSoup(r.text, features="html5lib")
-    #programs = soup.find_all('div', {'class': 'channel-schedule-wrapper'})
+
+    #go thorugh each btv media group chanel but we are interested only in the first one
     for each_div in soup.findAll('div', {'class': 'channel-schedule-wrapper'}):
-        #print each_div
+        #each program is stored in a list, therefore iterate thorugh li-s
         for eachLi in each_div.findAll('li'):
+            #get the name
             name = (eachLi.findNext('span', {'class': 'title'})).text.strip()
+            #get the time
             startTime = eachLi.findNext('span', {'class': 'time'}).text.strip()
             print name
             prog = {}
@@ -28,5 +33,6 @@ def updateProgram():
 
     print programsList
 
+    #post the collected info to the server
     r = requests.post('http://46.101.233.213/programs/2', json=programsList)
-    print r.status_code
+    print r.status_code #expecting 200
