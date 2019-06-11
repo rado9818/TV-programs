@@ -1,0 +1,16 @@
+{
+    "require": {
+        "slim/slim": "^3.8",
+        "monolog/monolog": "^1.23",
+        "illuminate/database": "~5.1",
+        "slim/middleware": "*",
+        "bshaffer/oauth2-server-php" : "~1.8",
+        "robmorgan/phinx": "^0.10.6",
+        "symfony/console": "^4.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "classes/"
+        }
+    }
+}
